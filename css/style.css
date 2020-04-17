@@ -1,0 +1,174 @@
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: #60a3bc !important;
+}
+
+.user_card {
+	width: 350px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background: #f39c12;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	padding: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 5px;
+
+}
+
+.brand_logo_container {
+	position: absolute;
+	height: 170px;
+	width: 170px;
+	top: -75px;
+	border-radius: 50%;
+	background: #60a3bc;
+	padding: 10px;
+	text-align: center;
+}
+
+.brand_logo {
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	border: 2px solid white;
+}
+
+.form_container {
+	margin-top: 100px;
+}
+
+.login_btn {
+	width: 100%;
+	background: #c0392b !important;
+	color: white !important;
+}
+
+.login_btn:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+
+.login_container {
+	padding: 0 2rem;
+}
+
+.input-group-text {
+	background: #c0392b !important;
+	color: white !important;
+	border: 0 !important;
+	border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+.input_user,
+.input_pass:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+	background-color: #c0392b !important;
+}
+
+/* student info */
+.contact {
+
+	height: 400px;
+}
+
+#leftstrip {
+	background: #ff9b00;
+	padding: 4%;
+	border-top-left-radius: 0.5rem;
+	border-bottom-left-radius: 0.5rem;
+}
+
+#SI1 {
+	box-shadow: 0px 4px 8px 20px #25274d;
+}
+
+.contact-info {
+	margin-top: 10%;
+}
+
+.contact-info img {
+	margin-bottom: 15%;
+}
+
+.contact-info h2 {
+	margin-bottom: 10%;
+}
+
+.col-md-9 {
+	background: #fff;
+	padding: 3%;
+	border-top-right-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
+}
+
+.contact-form label {
+	font-weight: 600;
+}
+
+.contact-form button {
+	background: #25274d;
+	color: #fff;
+	font-weight: 600;
+	width: 25%;
+}
+
+.contact-form button:focus {
+	box-shadow: none;
+}
+/*
+.footer {
+	background: #152F4F;
+	color: white;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.links ul {
+	list-style-type: none;
+}
+
+.links li a {
+	color: white;
+	transition: color .2s;
+}
+
+.links a:hover {
+	text-decoration: none;
+	color: #4180CB;
+}
+
+.about-company i {
+	font-size: 25px;
+}
+
+.about-company a {
+	color: white;
+	transition: color .2s;
+}
+
+.about-company a:hover {
+	color: #4180CB
+}
+
+.location i {
+	font-size: 18px;
+}
+
+.copyright p {
+	border-top: 1px solid rgba(255, 255, 255, .1);
+}
+*/
