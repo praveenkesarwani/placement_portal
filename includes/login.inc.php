@@ -28,7 +28,7 @@ if (isset($_POST['login-submit'])) {
         if ($row['email'] != null && $row['password'] != null) {
           if ($row['admin'] == 1) {
             $_SESSION['email'] = $row['email'];
-            echo "<script>window.location = '../Admin/admin-home.php'</script>'";
+            echo "<script>window.location = '../Admin/home.php'</script>'";
           } else {
             //check if he/she have already filled the form or not
 
@@ -74,7 +74,7 @@ if (isset($_POST['login-submit'])) {
                 echo "<script type='text/javascript'>alert('Not SET')</script>";
               }
               */
-              echo "<script>window.location = '../home.php'</script>'";
+              echo "<script>window.location = '../users/home.php'</script>'";
             }
           }
         }

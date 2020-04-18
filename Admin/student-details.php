@@ -4,7 +4,7 @@ require '../includes/config.inc.php';
 <html>
 
 <head>
-    <title>Admin-Home</title>
+    <title>Students Details</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
@@ -12,10 +12,10 @@ require '../includes/config.inc.php';
 
     <!-- css-->
     <link rel="stylesheet" href="../css\style.css">
-    <!-- css-->
+
     <!--bootstrap css-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!--bootstrap css-->
+
     <!--bootstrap js-->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
     </script>
@@ -23,45 +23,63 @@ require '../includes/config.inc.php';
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
-    <!--bootstrap js-->
+
+    <!--Font Awesome-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
     <!--Header-->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-            <h1><a class="navbar-brand" href="admin-home.php">Placement-Portal <span class="display"></span></a></h1>
+        <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+            <h1>
+                <a class="navbar-brand" href="home.php" id="navbar-logo">
+                    <img src="../img/logo.png" alt="Logo" id="nav-logo">
+                    <span class="display"></span></a>
+            </h1>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent "style=" font-size:18px; ">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent" style=" font-size:18px; ">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item ">
-                        <a class="nav-link" href="home.php">Home <span class="sr-only">(current)</span></a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hostels</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Message_Received</a>
+                        <a class="nav-link" href="home.php">
+                            <i class="fa fa-home"></i>
+                            Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-envelope">
+                            </i>
+                            Messages
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../includes/logout.inc.php">Logout</a>
+                        <a class="nav-link active" href="#">
+                            <i class="fa fa-users">
+                            </i>
+                            Student Details
+                        </a>
                     </li>
-                </ul>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">
+                            <i class="fa fa-bell"></i>
+                            Notice
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link " href="../includes/logout.inc.php">
+                            <i class="fa fa-sign-out"></i>
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
-    <!--header-->
+    <!--contents-->
     <div class="container-fluid contact">
         <div class="row">
             <div class='col-md-3 col-xs-12' id='leftstrip'>
@@ -84,7 +102,7 @@ require '../includes/config.inc.php';
                             <h5>Discipline</h5>
                         </label>
                         <div class='col-sm-14'>
-                            <label class="radio-inline"><input type="radio" id='btech' name="discipline" value="B.Tech" required > B.Tech</label>
+                            <label class="radio-inline"><input type="radio" id='btech' name="discipline" value="B.Tech" required> B.Tech</label>
                             <label class="radio-inline"><input type="radio" id='mtech' name="discipline" value="M.Tech"> M.Tech</label>
                             <label class="radio-inline"><input type="radio" id='bsc' name="discipline" value="B.sc"> B.Sc</label>
                             <label class="radio-inline"><input type="radio" id='msc' name="discipline" value="M.sc"> M.Sc</label>
@@ -171,7 +189,7 @@ require '../includes/config.inc.php';
 
             </div>
             <div class='col-md-9 col-xs-12'>
-                <h2 class="heading text-capitalize mb-sm-5 mb-4"> Student Details </h2>
+                <h2 class="heading text-capitalize mb-sm-5 mb-4 text-center"> Student Details </h2>
                 <?php
                 //php code starts
 
@@ -235,7 +253,7 @@ require '../includes/config.inc.php';
 
                         <?php
                         $user = $_SESSION['email'];
-                        $query1 = "SELECT * FROM studentInfo ORDER BY college ASC,firstname ASC";
+                        $query1 = "SELECT * FROM studentInfo ORDER BY college ASC,firstname ASC,grad_year ASC";
                         $result1 = mysqli_query($conn, $query1);
                         ?>
 

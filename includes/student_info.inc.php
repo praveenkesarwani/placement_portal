@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
         $result = mysqli_query($conn, $sql);
         if ($result) {
             $_SESSION['email'] = $email;
-            header("Location:../home.php?savedInfo=success");
+            header("Location:../users/home.php?savedInfo=success");
         } else {
             header("error=detailsNotSaved");
         }

@@ -2,8 +2,8 @@
 require 'config.inc.php';
 $user = $_SESSION['email'];
 $sql2 = "select * FROM studentinfo where email = '$user'";
-	$query = mysqli_query($conn, $sql2) or die("Failed to query database " . mysqli_error());
-	$rows = mysqli_fetch_assoc($query);
+$query = mysqli_query($conn, $sql2) or die("Failed to query database " . mysqli_error());
+$rows = mysqli_fetch_assoc($query);
 
 if (!$user == true) {
 	header("Location:../index.php?error=strangeerr");
@@ -35,15 +35,15 @@ if (isset($_POST['update'])) {
 	$hobbies = $_POST['hobbies'];
 	$comment = $_POST['comment'];
 
-	
+
 	$sql = "UPDATE studentinfo SET firstname='$fname',lastname='$lname',gender='$gender',college='$college',discipline='$discipline',branch='$branch',
 			college_id='$collid',email='$email',contact='$contact',dob='$dob',x_board='$xboard',x_marks='$xmarks',x_year= '$xpass',
 			x_division='$xdivision',xii_board='$xiiboard',xii_marks='$xiimarks',xii_year='$xiipass',xii_division='$xiidivision',cgpa='$gmarks',
 			grad_year='$gpass',grad_div='$gdivision',career='$career',training='$training',hobbies='$hobbies',comment='$comment'
 			WHERE email = '$user'";
-	$result = mysqli_query($conn,$sql);
+	$result = mysqli_query($conn, $sql);
 	if ($result) {
-		header("Location:../home.php?updatedInfo=success");
+		header("Location:../users/home.php?updatedInfo=success");
 	} else {
 		echo "<script>alert('details not updated');window.location = 'edit.inc.php' </script>'";
 	}
@@ -55,9 +55,9 @@ if (isset($_POST['update'])) {
 	<title>Edit Profile</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-	
+	<link rel="icon" href="../img/favicon.png" type="image/png" sizes="16x16">
 	<!-- css-->
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="..\css\style.css">
 	<!-- css-->
 	<!--bootstrap css-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -70,50 +70,70 @@ if (isset($_POST['update'])) {
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 	</script>
 	<!--bootstrap js-->
+	<!--Font Awesome-->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-<!--Header-->
-<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<h1><a class="navbar-brand" href="home.php">Placement-Portal <span class="display"></span></a></h1>
+	<!--Header-->
+	<header>
+		<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+			<h1>
+				<a class="navbar-brand" href="../users/home.php" id="navbar-logo">
+					<img src="..\img\logo.png" alt="Logo" id="nav-logo">
+					<span class="display"></span></a>
+			</h1>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent" style=" font-size:18px; ">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item ">
-						<a class="nav-link" href="../home.php">Home</a>
+					<li class="nav-item">
+						<a class="nav-link" href="../users/home.php">
+							<i class="fa fa-home"></i>
+							Home
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<i class="fa fa-envelope">
+							</i>
+							Messages
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="../users/student-details.php">
+							<i class="fa fa-users">
+							</i>
+							Student Details
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="#">
+							<i class="fa fa-bell"></i>
+							Notice
+						</a>
 					</li>
 
-					<li class="nav-item">
-						<a class="nav-link" href="#">Hostels</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Message_Received</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
-					<li class="dropdown nav-item">
-						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><?php echo $rows['college_id']; ?>
+					<li class="nav-item ">
+						<a class="nav-link active" href="../users/profile.php">
+							<i class="fa fa-user"></i>
+							<?php echo $rows['college_id']; ?>
 						</a>
-						<ul class="dropdown-menu agile_short_dropdown " style="padding:4px; color:black;">
-							<li>
-								<a href="../profile.php" style="color:black;">My Profile</a>
-							</li>
-							<li>
-								<a href="logout.inc.php" style="color:black;">Logout</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				</li>
+					<li class="nav-item">
+						<a class="nav-link " href="../includes/logout.inc.php">
+							<i class="fa fa-sign-out"></i>
+							Logout
+						</a>
+					</li>
 				</ul>
 			</div>
 		</nav>
 	</header>
-	<!--header-->
+	<!--contents-->
 	<div class="container-fluid contact">
 		<form action="" method="POST">
 			<div class="row" id='SI1'>
@@ -140,7 +160,7 @@ if (isset($_POST['update'])) {
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-4" >Gender:</label>
+							<label class="control-label col-sm-4">Gender:</label>
 							<div class='col-sm-10'>
 								<label class="radio-inline"><input type="radio" name="gender" value="MALE" checked> Male</label>&nbsp &nbsp &nbsp
 								<label class="radio-inline"><input type="radio" name="gender" value="FEMALE"> Female</label>&nbsp &nbsp &nbsp
