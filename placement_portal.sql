@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `login`
 --
 
+
 CREATE TABLE `login` (
   `id` int(30) NOT NULL,
   `email` varchar(30) DEFAULT NULL,
