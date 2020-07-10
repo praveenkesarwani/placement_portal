@@ -1,6 +1,8 @@
 <?php
 $error = NULL;
 include("../includes/config.inc.php");
+//deactivating this feature due to our classmates
+//header("Location:../index.php?signup=featureDeactivated");
 if (isset($_POST['signup-submit'])) {
 	//Get Form Data
 	function val($data)
@@ -13,42 +15,29 @@ if (isset($_POST['signup-submit'])) {
 	$email = val($_POST['email']);
 	$password = val($_POST['password']);
 	$cnfpassword = val($_POST['confirm_password']);
+	$security_ques = $_POST['security_ques'];
+	$security_ans = $_POST['security_ans'];
 
 	//check confirm password
 	if ($password != $cnfpassword) {
-		$error .= "<p>Your password do not match</p>";
+		$error .= "<p>PASSWORD DO NOT MATCH</p>";
 	} else {
-		//Form is Valid
 
-		//Generate VKey
-		$vkey = md5(time());
-
-		//Insert acount into the database
 		$password = md5($password);
-		$sql = "INSERT INTO `login`(`email`, `password`,`vkey`) 
-        	    VALUES ('$email','$password','$vkey')";
+		$sql = "INSERT INTO `login`(`email`, `password`, `security_ques`, `security_ans`) 
+		VALUES ('$email','$password','$security_ques','$security_ans')";
 		$insert = mysqli_query($conn, $sql);
-		
 		if ($insert) {
-			//Send Email
-			$to = $email;
-			$subject = "Email Verification";
-			$message = "<a href='http://localhost/placement/registration/verify.php?vkey=$vkey'>Confirm my email</a>";
-			$headers = "From: praveenkesarwani739@gmail.com \r\n";
-			$headers .= "MIME-Version: 1.0" . "\r\n";
-			$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-			$_SESSION['email'] = $email;
-			mail($to, $subject, $message, $headers);
-			header('Location:thankyou.php');
+			header("Location:../index.php?signup=success");
 		} else {
-		echo mysqli_error($conn);
+			//duplicate entry
+			$error .= "<p>USER ALREADY EXISTS</p>";
+		}
 	}
-}
 	mysqli_close($conn);
 }
 ?>
-
+<!-------------------------------------------------HTML code starts----------------------------------->
 <!DOCTYPE html>
 <html>
 
@@ -72,51 +61,75 @@ if (isset($_POST['signup-submit'])) {
 				</div>
 				<div class="d-flex justify-content-center form_container">
 					<!--form started-->
+					<div class="label">
+						<form action="" method="POST"><br>
+							<div>
+								<h4 style="text-align:center;font-weight:bold;">STUDENT SIGN UP</h4><br>
+								<center style="color:red;font-weight:bold;">
+									<?php echo $error; ?>
+								</center>
+							</div>
+							<!--email-->
+							<div class="label">
+								<label>Email ID:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="fas fa-user"></i></span>
+									</div>
+									<input type="email" name="email" class="form-control input_user" value="" placeholder="Email" required>
+								</div>
+								<!--password-->
+								<label>Password:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="fas fa-key"></i></span>
+									</div>
+									<input type="password" name="password" class="form-control input_pass" value="" placeholder="Password" required>
+								</div>
+								<!--re-enter password-->
+								<label>Re-Enter Password:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="fas fa-key"></i></span>
+									</div>
+									<input type="password" name="confirm_password" class="form-control input_pass" value="" placeholder="ReType Password" required>
+								</div>
+								<!--Security Question-->
+								<label>Security Question:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+									</div>
+									<select class="form-control" name='security_ques'>
 
-					<form action="" method="POST"><br>
-						<div>
-							<h4 style="text-align:center;font-weight:bold;">STUDENT SIGN UP</h4><br>
-							<center>
-								<?php
-								echo $error;
-								?>
-							</center>
-						</div>
-						<p style='color:white'>Enter user mail</p>
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+										<option>What was your childhood nickname?</option>
+										<option>What is your previous school name?</option>
+										<option>What was your dream job as a child?</option>
+										<option>What is your favorite movie?</option>
+										<option>What is your pet's name?</option>
+										<option>What is your favorite TV Series?</option>
+										<option>What is your favorite sport?</option>
+										<option>What was/is your first car brand?</option>
+										<option>In what city were you born?</option>
+									</select>
+								</div>
+								<!--Security Answer-->
+								<label>Security Answer:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="fas fa-lock"></i></span>
+									</div>
+									<input type="text" name="security_ans" class="form-control input_pass" value="" placeholder="Security Answer" required>
+								</div>
 							</div>
-							<input type="email" name="email" class="form-control input_user" value="" placeholder="Email" required>
-						</div>
-						<p style='color:white'>Set user Password</p>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							<!--Submit-->
+							<div class="d-flex justify-content-center mt-3 login_container">
+								<button type="submit" name="signup-submit" class="btn login_btn">Sign Up</button>
 							</div>
-							<input type="password" name="password" class="form-control input_pass" value="" placeholder="Password" required>
-						</div>
-						<p style='color:white'>ReType Password</p>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" name="confirm_password" class="form-control input_pass" value="" placeholder="ReType Password" required>
-						</div>
-						<!--<div class="form-group">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="customControlInline">
-								<label class="custom-control-label" for="customControlInline">Remember me</label>
-							</div>
-						</div>
-						-->
-						<div class="d-flex justify-content-center mt-3 login_container">
-							<button type="submit" name="signup-submit" class="btn login_btn">Sign Up</button>
-						</div>
-					</form>
-					<!--form end-->
+						</form>
+						<!--form end-->
+					</div>
 				</div>
-
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Already have an account? <a style='color:white' href="../index.php" class="ml-2">Log In</a>

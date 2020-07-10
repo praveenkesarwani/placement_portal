@@ -26,6 +26,7 @@ $rows = mysqli_fetch_assoc($query);
         <p> A Reset Paasword link has been sent to <strong><?php echo $rows['email']?></strong>. </p>
         <p> Check your inbox and click on the <b>"Recover my password"</b> link to reset your password. </p>
         <p> If not found in “inbox” check your “spam” and other folders also.</p>
+        <a href="../index.php">Home</a>
     </center>
 </body>
 

@@ -9,10 +9,11 @@ $query = mysqli_query($conn, $sql2) or die("Failed to query database " . mysqli_
 $rows = mysqli_fetch_assoc($query);
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-	<title>Home</title>
+	<title> Message</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 	<link rel="icon" href="../img/favicon.png" type="image/png" sizes="16x16">
@@ -37,7 +38,24 @@ $rows = mysqli_fetch_assoc($query);
 
 </head>
 
+<style type="text/css">
+	.card-header {
+		padding: 15px;
+		font-size: 30px;
+	}
+
+	.card-body {
+		padding: 15px;
+	}
+
+	.card-footer {
+		text-align: left;
+		padding: 15px;
+	}
+</style>
+
 <body>
+
 	<!--Header-->
 	<header>
 		<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
@@ -52,15 +70,15 @@ $rows = mysqli_fetch_assoc($query);
 
 			<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent" style=" font-size:18px; ">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">
+					<li class="nav-item ">
+						<a class="nav-link" href="home.php">
 							<i class="fa fa-home"></i>
 							Home
-							<span class="sr-only">(current)</span>
+							<span class="sr-only"></span>
 						</a>
 					</li>
 
-					<li class="nav-item">
+					<li class="nav-item active">
 						<a class="nav-link" href="messages.php">
 							<i class="fa fa-envelope">
 							</i>
@@ -84,92 +102,41 @@ $rows = mysqli_fetch_assoc($query);
 					</li>
 					<li class="nav-item">
 						<a class="nav-link " href="../includes/logout.inc.php">
-							<i class="fa fa-sign-out"></i>
-							Logout
+							<i class="fa fa-sign-out"></i>Logout
 						</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 	</header>
-
-	<!--Contents-->
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-		</ol>
-		<div class="carousel-inner">
-			<div class="carousel-item active">
-				<img class="d-block w-100" src="../img/bg1.jpg" alt="First slide" height="700px">
+	<!--php code starts-->
+	<div class="container">
+		<br>
+		<?php
+		$id = $rows['college_id'];
+		$query = "SELECT * FROM messages WHERE receiver_id ='$id'";
+		$result = mysqli_query($conn, $query);
+		while ($row = mysqli_fetch_assoc($result)) {
+			$img_src = $row['notice'];
+		?>
+			<div class="container">
+				<div class="card">
+					<div class="card-header"><b><?php echo $row['sender']; ?></b></div>
+					<div class="card-body"><?php echo $row['message']; ?>
+						<span style="float: right"><?php echo $row['msg_date'] . " " . $row['msg_time']; ?></span>
+					</div>
+					<div class="card-body">
+						<a href="../Admin/uploads/<?php echo $img_src; ?>">
+							<img src="../Admin/uploads/<?php echo $img_src; ?>" alt="Notice" title="<?php echo $img_src; ?>" width="20%" height="10%" class="img-responsive" />
+						</a>
+					</div>
+				</div>
 			</div>
-			<div class="carousel-item">
-				<img class="d-block w-100" src="../img/bg2.jpg" alt="Second slide" height="700px">
-			</div>
-			<div class="carousel-item">
-				<img class="d-block w-100" src="../img/bg3.png" alt="Third slide" height="700px">
-			</div>
-		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
+			<br><br>
+		<?php
+		}
+		?><br><br>
 	</div>
-
-	<!-- footer -->
-	<section id="myfooter">
-
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-4">
-								<img src="..\img\logo.png" alt="Logo" id="footer-logo">
-								<br><br>
-								Directorate of Placement and Counselling, G.B.P.U.A.T<br> Pantnagar.
-								<br> <br>
-							</div>
-							<div class="col-lg-4">
-								<h3>Contact</h3>
-								<p><i class="fas fa-map-marker-alt"></i> Near Registrar Office, Pantnagar</p>
-								<p><i class="fas fa-phone"></i> Phone: (+91) 8574124578</p>
-								<p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
-								<p><i class="fab fa-skype"></i> Skype: you_online</p>
-								<br><br>
-							</div>
-							<div class="col-lg-4">
-								<h3>Links</h3>
-								<p><i class="fa fa-home"></i> <a href="home.php">Home</a></p>
-								<p><i class="fa fa-envelope"></i> <a href="messages.php">Messages</a></p>
-								<p><i class="fa fa-users"></i> <a href="student-details.php">Student Details</a></p>
-								<p><i class="fa fa-users"></i> <a href="profile.php">Profile</a></p>
-								<br><br>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-12" style="text-align: justify;">
-								<h3>ABOUT US!</h3> It is a placement cell portal for GB pant university of Agriculture & Technology.
-								Now you can find all student's details through this web portal.
-
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
 </body>
 
 </html>

@@ -1,6 +1,9 @@
 <?php
 require '../includes/config.inc.php';
-$user = $_SESSION['email'];
+$user = $_SESSION['admin'];
+if(!$user==true){
+    header("Location:../index.php?error=strangeerr");
+}
 $sql2 = "select * FROM studentinfo where email = '$user'";
 $query = mysqli_query($conn, $sql2) or die("Failed to query database " . mysqli_error());
 $rows = mysqli_fetch_assoc($query);
@@ -37,7 +40,7 @@ $rows = mysqli_fetch_assoc($query);
 <body>
 	<!--Header-->
 	<header>
-		<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark ">
 			<h1>
 				<a class="navbar-brand" href="home.php" id="navbar-logo">
 					<img src="..\img\logo.png" alt="Logo" id="nav-logo">
@@ -58,23 +61,17 @@ $rows = mysqli_fetch_assoc($query);
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link" href="#">
-							<i class="fa fa-envelope">
+						<a class="nav-link" href="resume.php">
+							<i class="fa fa-file">
 							</i>
-							Messages
+							Resume
 						</a>
 					</li>
 					<li class="nav-item">
-                    <a class="nav-link" href="student-details.php">
+						<a class="nav-link" href="student-details.php">
 							<i class="fa fa-users">
 							</i>
 							Student Details
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link " href="#">
-							<i class="fa fa-bell"></i>
-							Notice
 						</a>
 					</li>
 
@@ -92,40 +89,81 @@ $rows = mysqli_fetch_assoc($query);
 	</header>
 
 	<!--Contents-->
-	<div class="bg content"></div>
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img class="d-block w-100" src="../img/bg1.jpg" alt="First slide" height="700px">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100" src="../img/bg2.jpg" alt="Second slide" height="700px">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100" src="../img/bg3.png" alt="Third slide" height="700px">
+			</div>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
 
 	<!-- footer -->
-	<footer class="footer">
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-3">
-						<img src="..\img\logo.png" alt="Logo" id="footer-logo">
-						<p><br>
-							Directorate of Placement and Counselling, G.B.P.U.A.T<br> Pantnagar.
-						</p>
-					</div>
-					<div class="col-md-4 offset-md-1 ">
-						<h3>Contact</h3>
-						<p><i class="fas fa-map-marker-alt"></i> Near Registrar Office, Pantnagar</p>
-						<p><i class="fas fa-phone"></i> Phone: (+91) 8574124578</p>
-						<p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
-						<p><i class="fab fa-skype"></i> Skype: you_online</p>
-					</div>
-					<div class="col-md-4 footer-links">
+	<section id="myfooter">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="container">
 						<div class="row">
-							<div class="col links">
+							<div class="col-lg-4">
+								<img src="..\img\logo.png" alt="Logo" id="footer-logo">
+								<br><br>
+								Directorate of Placement and Counselling, G.B.P.U.A.T<br> Pantnagar.
+								<br> <br>
+							</div>
+							<div class="col-lg-4">
+								<h3>Contact</h3>
+								<p><i class="fas fa-map-marker-alt"></i> Near Registrar Office, Pantnagar</p>
+								<p><i class="fas fa-phone"></i> Phone: (+91) 8574124578</p>
+								<p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
+								<p><i class="fab fa-skype"></i> Skype: you_online</p>
+								<br><br>
+							</div>
+							<div class="col-lg-4">
 								<h3>Links</h3>
-								<p><i class="fa fa-home"></i><a href="home.php">Home</a></p>
-								<p><i class="fa fa-envelope"></i><a href="#">Messages</a></p>
-								<p><i class="fa fa-users"></i><a href="student-details.php">Student Details</a></p>
-								<p><i class="fa fa-bell"></i><a href="#">Notice</a></p>
+								<p><i class="fa fa-home"></i> <a href="home.php">Home</a></p>
+								<p><i class="fa fa-file"></i> <a href="resume.php">Resume</a></p>
+								<p><i class="fa fa-users"></i> <a href="student-details.php">Student Details</a></p>
+								<br><br>
 							</div>
 						</div>
 					</div>
 				</div>
+
+				<div class="col-lg-4">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12" style="text-align: justify;">
+								<h3>ABOUT US!</h3> It is a placement cell portal for GB pant university of Agriculture & Technology.
+								Now you can find all student's details through this web portal.
+
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
-	</footer>
+		</div>
+	</section>
 
 </body>
 

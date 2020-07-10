@@ -27,7 +27,8 @@ if (isset($_POST['login-submit'])) {
       if ($row['email'] == $email && $row['password'] == $password) {
         if ($row['email'] != null && $row['password'] != null) {
           if ($row['admin'] == 1) {
-            $_SESSION['email'] = $row['email'];
+            //session_start();
+            $_SESSION['admin'] = $row['admin'];
             echo "<script>window.location = '../Admin/home.php'</script>'";
           } else {
             //check if he/she have already filled the form or not
@@ -41,39 +42,7 @@ if (isset($_POST['login-submit'])) {
               echo "<script>window.location = '../studentInfo.php'</script>'";
             } else {
               //session_start();
-              $_SESSION['firstname'] = $rows['firstname'];
-              $_SESSION['lastname'] = $rows['lastname'];
-              $_SESSION['college'] = $rows['college'];
-              $_SESSION['discipline'] = $rows['discipline'];
-              $_SESSION['branch'] = $rows['branch'];
-              $_SESSION['college_id'] = $rows['college_id'];
-              $_SESSION['email'] = $rows['email'];
-              $_SESSION['contact'] = $rows['contact'];
-              $_SESSION['dob'] = $rows['dob'];
-              $_SESSION['x_board'] = $rows['x_board'];
-              $_SESSION['x_marks'] = $rows['x_marks'];
-              $_SESSION['x_year'] = $rows['x_year'];
-              $_SESSION['x_division'] = $rows['x_division'];
-              $_SESSION['xii_board'] = $rows['xii_board'];
-              $_SESSION['xii_marks'] = $rows['xii_marks'];
-              $_SESSION['xii_year'] = $rows['xii_year'];
-              $_SESSION['xii_division'] = $rows['xii_division'];
-              $_SESSION['cgpa'] = $rows['cgpa'];
-              $_SESSION['grad_year'] = $rows['grad_year'];
-              $_SESSION['grad_div'] = $rows['grad_div'];
-              $_SESSION['career'] = $rows['career'];
-              $_SESSION['training'] = $rows['training'];
-              $_SESSION['hobbies'] = $rows['hobbies'];
-              $_SESSION['comment'] = $rows['comment'];
-              //check if session started or not
-              /*
-              if(isset($_SESSION['firstname'])){
-                echo "<script type='text/javascript'>alert('Set')</script>";
-              }
-              else {
-                echo "<script type='text/javascript'>alert('Not SET')</script>";
-              }
-              */
+              $_SESSION['id'] = $rows['college_id'];
               echo "<script>window.location = '../users/home.php'</script>'";
             }
           }

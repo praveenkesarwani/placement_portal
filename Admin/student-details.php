@@ -1,5 +1,9 @@
 <?php
 require '../includes/config.inc.php';
+$user = $_SESSION['admin'];
+if(!$user==true){
+    header("Location:../index.php?error=strangeerr");
+}
 ?>
 <html>
 
@@ -7,15 +11,11 @@ require '../includes/config.inc.php';
     <title>Students Details</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-
     <link rel="icon" href="../img/favicon.png" type="image/png" sizes="16x16">
-
     <!-- css-->
     <link rel="stylesheet" href="../css\style.css">
-
     <!--bootstrap css-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
     <!--bootstrap js-->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
     </script>
@@ -23,7 +23,6 @@ require '../includes/config.inc.php';
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
-
     <!--Font Awesome-->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -45,34 +44,22 @@ require '../includes/config.inc.php';
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item ">
                         <a class="nav-link" href="home.php">
-                            <i class="fa fa-home"></i>
-                            Home
+                            <i class="fa fa-home"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-envelope">
-                            </i>
-                            Messages
+                        <a class="nav-link" href="resume.php">
+                            <i class="fa fa-file"></i>Resume
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="#">
-                            <i class="fa fa-users">
-                            </i>
-                            Student Details
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="#">
-                            <i class="fa fa-bell"></i>
-                            Notice
+                            <i class="fa fa-users"></i>Student Details
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link " href="../includes/logout.inc.php">
-                            <i class="fa fa-sign-out"></i>
-                            Logout
+                            <i class="fa fa-sign-out"></i>Logout
                         </a>
                     </li>
                 </ul>
@@ -182,18 +169,27 @@ require '../includes/config.inc.php';
                     </div><br>
                     <div class="form-group">
                         <div>
-                            <button type="submit" class="btn btn-default" name=search>Search</button>&nbsp; &nbsp;
+                            <button type="submit" class="btn btn-default" name="search">Search</button>&nbsp; &nbsp;
                         </div>
                     </div>
                 </form>
-
+                <div class="form-group">
+                    <div>
+                        <button type="submit" class="btn btn-default" id='messageUpload' name="messageUpload">Upload message</button>&nbsp; &nbsp;
+                    </div>
+                </div>
             </div>
+
+
+            <!------------------------------------------------------Right Section Starts-------------------------------------------------->
+
             <div class='col-md-9 col-xs-12'>
-                <h2 class="heading text-capitalize mb-sm-5 mb-4 text-center"> Student Details </h2>
+                <h2 class="heading text-capitalize mb-sm-5 mb-4 text-center" id="profile-heading"> Student Details </h2>
                 <?php
                 //php code starts
-
+                $arr = array();
                 if (isset($_POST['search'])) {
+                    $_SESSION['google'] = '5';
                     $college = $_POST['college'];
                     $discipline = $_POST['discipline'];
                     $branch = $_POST['branch'];
@@ -202,7 +198,6 @@ require '../includes/config.inc.php';
                     $career = $_POST['career'];
                     $gender = $_POST['gender'];
 
-                    /*echo "<script type='text/javascript'>alert('<?php echo $search_box; ?>')</script>";*/
                     $user = $_SESSION['email'];
                     $query_search = "SELECT * FROM studentinfo 
                                     WHERE college='$college' and  discipline='$discipline' and branch='$branch'
@@ -212,7 +207,7 @@ require '../includes/config.inc.php';
                 ?>
                     <div class="container">
                         <table class="table table-hover">
-                            <thead>
+                            <thead id="table-td">
                                 <tr>
                                     <th>Sl No</th>
                                     <th>Student Name</th>
@@ -236,6 +231,7 @@ require '../includes/config.inc.php';
                                         $contact = $row_search['contact'];
                                         $email = $row_search['email'];
                                         $college = $row_search['college'];
+                                        $arr[] = $college_id;
                                         //student name
 
                                         echo "<tr><td>{$count}</td><td>{$student_name}</td><td>{$college_id}</td><td>{$contact}</td><td>{$email}</td><td>{$college}</td></tr>\n";
@@ -245,47 +241,100 @@ require '../includes/config.inc.php';
                                 ?>
                             </tbody>
                         </table>
-                    </div>
-                <?php
+                    <?php
                 } else {
-                ?>
-                    <div class="container">
+                    ?>
+                        <div class="container">
 
-                        <?php
-                        $user = $_SESSION['email'];
-                        $query1 = "SELECT * FROM studentInfo ORDER BY college ASC,firstname ASC,grad_year ASC";
-                        $result1 = mysqli_query($conn, $query1);
-                        ?>
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Sl No</th>
-                                    <th>Student Name</th>
-                                    <th>Student ID</th>
-                                    <th>Contact Number</th>
-                                    <th>Email Id</th>
-                                    <th>College</th>
-                                </tr>
-                            </thead>
-                            <tbody>
                             <?php
-                            if (mysqli_num_rows($result1) == 0) {
-                                echo '<tr><td colspan="4">No Rows Returned</td></tr>';
-                            } else {
-                                $count = 1;
-                                while ($row1 = mysqli_fetch_assoc($result1)) {
-                                    //student name
-                                    $student_name = $row1['firstname'] . " " . $row1['lastname'];
-
-                                    echo "<tr><td>{$count}</td><td>{$student_name}</td><td>{$row1['college_id']}</td><td>{$row1['contact']}</td><td>{$row1['email']}</td><td>{$row1['college']}</td></tr>\n";
-                                    $count++;
-                                }
-                            }
-                        }
+                            $user = $_SESSION['email'];
+                            $query1 = "SELECT * FROM studentinfo ORDER BY college ASC,firstname ASC,grad_year ASC";
+                            $result1 = mysqli_query($conn, $query1);
                             ?>
-                            </tbody>
-                        </table>
+
+                            <table class="table table-hover">
+                                <thead id="table-td">
+                                    <tr>
+                                        <th>Sl No</th>
+                                        <th>Student Name</th>
+                                        <th>Student ID</th>
+                                        <th>Contact Number</th>
+                                        <th>Email Id</th>
+                                        <th>College</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if (mysqli_num_rows($result1) == 0) {
+                                        echo '<tr><td colspan="4">No Rows Returned</td></tr>';
+                                    } else {
+                                        $count = 1;
+                                        while ($row1 = mysqli_fetch_assoc($result1)) {
+                                            //student name
+                                            $student_name = $row1['firstname'] . " " . $row1['lastname'];
+                                            $arr[] = $row1['college_id'];
+                                            echo "<tr><td>{$count}</td><td>{$student_name}</td><td>{$row1['college_id']}</td><td>{$row1['contact']}</td><td>{$row1['email']}</td><td>{$row1['college']}</td></tr>\n";
+                                            $count++;
+                                        }
+                                    }
+                                }
+                                // If admin have to send message
+
+
+                                if (isset($_POST['sendMessage'])) {
+
+                                    //message name
+                                    $message = $_POST['message'];
+                                    //filename
+                                    $fileName = $_FILES['file']['name'];
+                                    $fileTmpName = $_FILES['file']['tmp_name'];
+                                    $fileDes = 'uploads/' . $fileName;
+                                    move_uploaded_file($fileTmpName,$fileDes);
+                                
+                                    //Insert to database
+                                    $query = 0;
+                                    $date = date("Y-m-d");
+                                    $time = date("h:i:s");
+                                    $sender = "Directorate Office";
+                                    $arrlength = count($arr);
+                                    for ($x = 0; $x < $arrlength; $x++) {
+                                        $sql = "INSERT INTO `messages`(`receiver_id`, `sender`, `message`,`notice`, `msg_date`, `msg_time`) 
+                                            VALUES ('$arr[$x]','$sender','$message','$fileName','$date','$time')";
+                                        $query = mysqli_query($conn, $sql);
+                                    }
+
+                                    if ($query) {
+                                        $res = "Message Sent!";
+                                    } else {
+                                        $res = "Message could not sent!";
+                                    }
+                                    ?>
+                                    <center style="color:red;font-weight:bold;">
+                                        <?php
+                                        echo $res;
+                                        ?>
+                                    </center>
+                                <?php
+                                }
+
+                                ?>
+                                </tbody>
+                            </table>
+
+                            <!--send message-->
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                <div id='fileUploader' class='col-md-12 col-xs-12'>
+                                    <div class="form-group">
+                                        <label for="comment">Message:</label>
+                                        <textarea class="form-control" rows="5" id="comment" name="message" required></textarea>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" name="file" required>
+                                        <label class="custom-file-label" for="customFile">Choose file</label><br><br>
+                                    </div><br><br>
+                                    <button type="submit" class="btn btn-default" name="sendMessage">Send Message</button>
+                            </form>
+                        </div>
                     </div>
             </div>
         </div>
@@ -315,5 +364,16 @@ require '../includes/config.inc.php';
 
     $("#mtech").click(function() {
         $("#branch").show(500);
+    });
+
+    $("#fileUploader").hide();
+    $("#messageUpload").click(function() {
+        $("#fileUploader").show(500);
+    });
+
+    // following code for name of the file to appear on select
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>

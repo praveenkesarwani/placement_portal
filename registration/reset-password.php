@@ -1,31 +1,30 @@
 <?php
 require '../includes/config.inc.php';
-if(isset($_POST['reset'])){
+$error = null;
+$user = $_SESSION['email'];
+if (isset($_POST['reset'])) {
     //Get Form Data
-    $user = $_SESSION['email'];
-	function val($data)
-	{
-		$data = trim($data);
-		$data = stripslashes($data);
-		$data = htmlspecialchars($data);
-		return $data;
-	}
-	$password = val($_POST['password']);
+    function val($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+    $password = val($_POST['password']);
     $cnfpassword = val($_POST['confirm_password']);
     if ($password != $cnfpassword) {
-		$error .= "<p>Your password do not match</p>";
-    }
-    else{
-		//Update password
-		$password = md5($password);
-		$sql = "UPDATE login SET `password`= '$password' where email = '$user'";
+        $error .= "<p>PASSWORD DO NOT MATCH</p>";
+    } else {
+        //Update password
+        $password = md5($password);
+        $sql = "UPDATE login SET `password`= '$password' where email = '$user'";
         $update = mysqli_query($conn, $sql);
-        if($update){
+        if ($update) {
             //go to login page
             echo "<script>alert('Password Changed Successfully!');window.location='../index.php'</script>";
-        }
-        else{
-            echo "<script>alert('Failed to update password!')window.location='reset-password.php'</script>";
+        } else {
+            $error .= "<p>FAILED TO UPDATE PASSWORD</p>";
         }
     }
 }
@@ -34,7 +33,7 @@ if(isset($_POST['reset'])){
 <html>
 
 <head>
-    <title>Recover Your Password</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
@@ -53,23 +52,26 @@ if(isset($_POST['reset'])){
                 </div>
                 <div class="d-flex justify-content-center form_container">
                     <form action="" method="POST">
-                        <div class="d-flex justify-content-center links">
-                            <h3 style='color:black'><b>RESET PASSWORD</b></h3>
-                        </div><br>
-
-                        <p>Enter Password:</p>
+                        <div>
+                            <h4 style="text-align:center;font-weight:bold;">RESET PASSWORD</h4><br>
+                            <center style="color:red;font-weight:bold;">
+                                <?php echo $error; ?>
+                            </center>
+                        </div>
+						<div class="label">
+                        <label>Enter Password:</label>
                         <div class="input-group mb-2">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
                             <input type="password" name="password" class="form-control input_pass" value="" placeholder="Password" required>
                         </div>
-                        <p>Re-Enter Password:</p>
+                        <label>Re-Enter Password:</label>
                         <div class="input-group mb-2">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input type="password" name="confirm_password" class="form-control input_pass" value="" placeholder="ReType Password" required>
+                            <input type="password" name="confirm_password" class="form-control input_pass" value="" placeholder="Re-Enter Password" required>
                         </div>
                         <div class="d-flex justify-content-center mt-3 login_container">
                             <button type="submit" name="reset" class="btn login_btn">RESET</button>

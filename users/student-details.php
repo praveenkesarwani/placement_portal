@@ -1,10 +1,13 @@
 <?php
 require '../includes/config.inc.php';
-$user = $_SESSION['email'];
-$sql2 = "select * FROM studentinfo where email = '$user'";
+$id = $_SESSION['id']; 
+if(!$id==true){ 
+    header("Location:../index.php?error=strangeerr"); 
+}
+$sql2 = "select * FROM studentinfo where college_id = '$id'";
 $query = mysqli_query($conn, $sql2) or die("Failed to query database " . mysqli_error());
 $rows = mysqli_fetch_assoc($query);
-
+$branch = $rows['branch'];
 ?>
 <html>
 
@@ -16,7 +19,7 @@ $rows = mysqli_fetch_assoc($query);
     <link rel="icon" href="../img/favicon.png" type="image/png" sizes="16x16">
 
     <!-- css-->
-    <link rel="stylesheet" href="../css\style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <!--bootstrap css-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -55,7 +58,7 @@ $rows = mysqli_fetch_assoc($query);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="messages.php">
                             <i class="fa fa-envelope">
                             </i>
                             Messages
@@ -68,18 +71,12 @@ $rows = mysqli_fetch_assoc($query);
                             Student Details
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="#">
-                            <i class="fa fa-bell"></i>
-                            Notice
+                    <li class="nav-item ">
+                        <a class="nav-link " href="profile.php">
+                            <i class="fa fa-user"></i>
+                            <?php echo $rows['college_id']; ?>
                         </a>
                     </li>
-                    <li class="nav-item ">
-						<a class="nav-link " href="profile.php">
-							<i class="fa fa-user"></i>
-							<?php echo $rows['college_id']; ?>
-						</a>
-					</li>
                     <li class="nav-item ">
                         <a class="nav-link " href="../includes/logout.inc.php">
                             <i class="fa fa-sign-out"></i>
@@ -94,12 +91,12 @@ $rows = mysqli_fetch_assoc($query);
     <div class="container-fluid contact content">
         <div class="row">
             <div class='col-md-3 col-xs-12' id='leftstrip'>
-            <div class="col-md">
-						<img src="..\img\logo.png" alt="Logo" id="footer-logo">
-						<p><br>
-							Directorate of Placement and Counselling, G.B.P.U.A.T Pantnagar.
-						</p>
-					</div>
+                <div class="col-md">
+                    <img src="..\img\logo.png" alt="Logo" id="footer-logo">
+                    <p><br>
+                        Directorate of Placement and Counselling, G.B.P.U.A.T Pantnagar.
+                    </p>
+                </div>
             </div>
 
             <div class='col-md-9 col-xs-12'>
@@ -108,7 +105,7 @@ $rows = mysqli_fetch_assoc($query);
 
                     <?php
                     $user = $_SESSION['email'];
-                    $query1 = "SELECT * FROM studentInfo ORDER BY college ASC,firstname ASC,grad_year ASC";
+                    $query1 = "SELECT * FROM studentinfo where branch = '$branch' ORDER BY firstname ASC";
                     $result1 = mysqli_query($conn, $query1);
                     ?>
 
@@ -144,38 +141,54 @@ $rows = mysqli_fetch_assoc($query);
         </div>
     </div>
     <!-- footer-->
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="..\img\logo.png" alt="Logo" id="footer-logo">
-                        <p><br>
-                            Directorate of Placement and Counselling, G.B.P.U.A.T<br> Pantnagar.
-                        </p>
-                    </div>
-                    <div class="col-md-4 offset-md-1 ">
-                        <h3>Contact</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> Near Registrar Office, Pantnagar</p>
-                        <p><i class="fas fa-phone"></i> Phone: (+91) 8574124578</p>
-                        <p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
-                        <p><i class="fab fa-skype"></i> Skype: you_online</p>
-                    </div>
-                    <div class="col-md-4 footer-links">
+    <section id="myfooter">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="container">
                         <div class="row">
-                            <div class="col links">
+                            <div class="col-lg-4">
+                                <img src="..\img\logo.png" alt="Logo" id="footer-logo">
+                                <br><br>
+                                Directorate of Placement and Counselling, G.B.P.U.A.T<br> Pantnagar.
+                                <br> <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <h3>Contact</h3>
+                                <p><i class="fas fa-map-marker-alt"></i> Near Registrar Office, Pantnagar</p>
+                                <p><i class="fas fa-phone"></i> Phone: (+91) 8574124578</p>
+                                <p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
+                                <p><i class="fab fa-skype"></i> Skype: you_online</p>
+                                <br><br>
+                            </div>
+                            <div class="col-lg-4">
                                 <h3>Links</h3>
-                                <p><i class="fa fa-home"></i><a href="home.php">Home</a></p>
-                                <p><i class="fa fa-envelope"></i><a href="#">Messages</a></p>
-                                <p><i class="fa fa-users"></i><a href="#">Student Details</a></p>
-                                <p><i class="fa fa-bell"></i><a href="#">Notice</a></p>
+                                <p><i class="fa fa-home"></i> <a href="home.php">Home</a></p>
+                                <p><i class="fa fa-envelope"></i> <a href="messages.php">Messages</a></p>
+                                <p><i class="fa fa-users"></i> <a href="student-details.php">Student Details</a></p>
+                                <p><i class="fa fa-user"></i> <a href="profile.php">Profile</a></p>
+                                <br><br>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align: justify;">
+                                <h3>ABOUT US!</h3> It is a placement cell portal for GB pant university of Agriculture & Technology.
+                                Now you can find all student's details through this web portal.
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </footer>
+    </section>
 </body>
 
 </html>
